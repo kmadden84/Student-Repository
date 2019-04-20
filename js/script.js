@@ -96,14 +96,13 @@ $(function() {
     getGallery();
     function searchEmployees() {
         // Declare variables
-        var input, filter, ul, li, a, i, txtValue;
+        var input, filter, txtValue;
         input = document.getElementById('search-input');
         filter = input.value.toUpperCase();
 
         // Loop through all list items, and hide those who don't match the search query
 
         $('.card').each(function() {
-			//a = $(this).find("h3")[0];
             txtValue = $(this).find("h3").text()
         	 if (txtValue.toUpperCase().indexOf(filter) > -1) {
                 $(this).show();
