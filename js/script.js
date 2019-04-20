@@ -6,6 +6,13 @@ $(function() {
     //empty var for main template and modal popup
     var template = '';
     var modal = '';
+    var search = '<form action="#" method="get">' +
+        '        <input type="search" id="search-input" class="search-input" placeholder="Search...">' +
+        '        <input type="submit" value="&#x1F50D;" id="serach-submit" class="search-submit">' +
+        '    </form>'
+
+    $(search).appendTo('.search-container');
+
 
     function getGallery() {
         $.getJSON(url, function(data) {
@@ -13,7 +20,7 @@ $(function() {
                 for (let i = 0; i < item.length; i += 1) { // loop through individual items in the data
                     //template literal for the 12 items (username added to rel attr as unique identifier)
 
-                    template += `<div class="card" rel="${item[i].login.username}">
+                    template += `<div class="card" rel="${item[i].login.username}" id="card_container">
                     <div class="card-img-container">
                         <img class="card-img" src="${item[i].picture.medium}" alt="profile picture">
                     </div>
@@ -81,7 +88,28 @@ $(function() {
                     $(this).parent().parent().next().show();
                 }
             });
+			$('#search-input').on('keyup', function() {
+				searchEmployees()
+    		})
         })
     }
     getGallery();
-});
+    function searchEmployees() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('search-input');
+        filter = input.value.toUpperCase();
+
+        // Loop through all list items, and hide those who don't match the search query
+
+        $('.card').each(function() {
+			//a = $(this).find("h3")[0];
+            txtValue = $(this).find("h3").text()
+        	 if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        })
+    }
+})
