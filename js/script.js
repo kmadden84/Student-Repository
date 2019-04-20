@@ -1,9 +1,5 @@
 $(function() {
 
-    //empty var for main template and modal popup
-    var template = '';
-    var modal = '';
-
     function fetchData(url) {
         return fetch(url)
             .then(checkStatus)
@@ -14,8 +10,16 @@ $(function() {
     Promise.all([fetchData('https://randomuser.me/api/?results=12')])
         .then(data => {
             var info = data[0].results;
+
+            //get modal and template data
+
             generateTemplate(info);
             generateModal(info);
+
+        }).then(() => {
+
+            //create search and call doc listeners
+
             createSearch();
             $('.card').on('click', showModal);
             $('button#modal-prev').on('click', showPrev);
@@ -25,6 +29,8 @@ $(function() {
                 $(this).parent().parent().hide();
             });
         })
+
+    //check status code of fetch request
         
     function checkStatus(response) {
         if (response.ok) {
@@ -34,12 +40,14 @@ $(function() {
         }
     }
 
+    // generate template data
+
     function generateTemplate(data) {
         var template = '';
-        $.each(data, function(i, item) { // loop through data
+        $.each(data, function(i, item) { 
             console.log(item)
 
-            //template literal for the 12 items (username added to rel attr as unique identifier)
+            //template literal for the 12 cards (username added to rel attr as unique identifier)
             template += `<div class="card" rel="${item.login.username}" id="card_container">
                     <div class="card-img-container">
                         <img class="card-img" src="${item.picture.medium}" alt="profile picture">
@@ -54,9 +62,11 @@ $(function() {
         $('#gallery').html(template);
     }
 
+    //generate modal data
+
     function generateModal(data) {
         var modal = '';
-        $.each(data, function(i, item) { // loop through data
+        $.each(data, function(i, item) { 
 
             //formatting birthday
             var birthday = function formatDate(date) {
@@ -70,6 +80,8 @@ $(function() {
 
                 return [month, day, year].join('/');
             }
+
+            //template literal for the 12 modals (username added to parent class as unique identifier)
             modal +=
                 `<div class="modal-container ${item.login.username}">
                     <div class="modal">
@@ -94,7 +106,9 @@ $(function() {
         $('body').append(modal);
     }
 
-    // Helper Functions
+     /** HELPER FUNTIONS **/
+
+    // create/append search
 
     function createSearch() {
         var search =
@@ -105,6 +119,8 @@ $(function() {
         $(search).appendTo('.search-container');
     }
 
+    // show modal on card click
+
     function showModal() {
         console.log('hi')
         var name = $(this).attr('rel'); // rel attr of clicked item
@@ -112,6 +128,8 @@ $(function() {
         var modalContent = $('.modal-container.' + name) // class attr of modal if it contains rel of clicked item
         $(modalContent).show();
     }
+
+    // show previous modal on prev click
 
     function showPrev() {
         var thisModal = $(this).parent().parent();
@@ -121,6 +139,8 @@ $(function() {
         }
     }
 
+    //show next modal on next click
+
     function showNext() {
         var thisModal = $(this).parent().parent();
         if (thisModal.next('.modal-container').length) {
@@ -128,6 +148,8 @@ $(function() {
             $(this).parent().parent().next().show();
         }
     }
+
+    // search functionality
 
     function searchEmployees() {
         // Declare variables
