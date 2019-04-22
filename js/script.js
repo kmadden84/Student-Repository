@@ -15,8 +15,8 @@ Promise.all([fetchData('https://randomuser.me/api/?results=12')])
         generateTemplate(info); // generate initial list of students
         createSearch(); // append the searchbar
         $('.card').on('click', function() {
-            var i = parseInt($('.card').index(this)); // getting index value of existing cards
-            createModal(i, info); // passing inddex vaule of cards to create intitial modal
+            var i = parseInt($(this).index()); // getting index value of existing cards
+            createModal(i, info); // passing index vaule of cards to create initial modal for initial click
             newModal(i, info); // passing index vaule of cards to create modals generated from prev/next buttons
         });
         $('#search-input').on('keyup', searchEmployees);  //search ok type in input
