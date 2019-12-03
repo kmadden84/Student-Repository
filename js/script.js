@@ -96,7 +96,7 @@ function createModal(i, data) {
                             <p class="modal-text cap">${data[i].location.city}</p>
                             <hr>
                             <p class="modal-text">${data[i].phone}</p>
-                            <p class="modal-text">${data[i].location.street}, ${data[i].location.city}, ${data[i].location.state} ${data[i].location.postcode}</p>
+                            <p class="modal-text">${data[i].location.street.number} ${data[i].location.street.name}, ${data[i].location.city}, ${data[i].location.state} ${data[i].location.postcode}</p>
                                 <p class="modal-text">Birthday: ${birthday}</p>
                         </div>
                      </div>
